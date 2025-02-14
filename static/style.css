@@ -1,0 +1,215 @@
+ /* Basic styling for the dashboard */
+ .spinner {
+    display: none;
+    border: 8px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 8px solid #3498db;
+    animation: spin 2s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#chart-spinner {
+    width: 50px;
+    height: 50px;
+}
+
+/* Predict Spinner: Smaller, centered in the prediction div */
+#predict-spinner {
+    width: 30px;
+    height: 30px;
+}
+
+/* Compare Spinner: Smaller, centered in the comparison div */
+#compare-spinner {
+    width: 30px;
+    height: 30px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+}
+.header {
+    text-align: center;
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+}
+.pred-container {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.controls {
+    margin-bottom: 20px;
+}
+#myChart {
+    max-width: 100%;
+    max-height: 100%;
+}
+.chart-container {
+    position: relative;
+    height: 500px; /* Set a fixed height */
+    width: 100%;
+    margin: 20px 0;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* General Styling for Inputs and Buttons */
+input[type="text"], input[type="date"], select {
+width: 100%;
+padding: 10px;
+margin: 8px 0;
+display: block;
+border: 1px solid #ccc;
+border-radius: 5px;
+font-size: 16px;
+}
+
+/* Button Group to Place Buttons Below Inputs */
+.button-group {
+margin-top: 10px;
+}
+
+input[type="button"] {
+background-color: #3498db; /* Blue color */
+color: white;
+padding: 10px 20px;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+font-size: 16px;
+transition: background-color 0.3s ease;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+margin-right: 10px; /* Add space between buttons */
+}
+
+input[type="button"]:hover {
+background-color: #2980b9;
+}
+
+/* Align buttons properly */
+.button-group {
+display: flex;
+justify-content: flex-start;
+}
+
+/* Input Field Styles */
+input[type="text"], input[type="date"], select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="date"]:focus, select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+}
+
+/* Label Styles */
+label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+}
+
+/* Align Inputs and Buttons Better */
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Center buttons inside the controls */
+input[type="button"], button {
+    align-self: flex-start;
+}
+
+/* Notification Styles */
+.notification-area {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    max-width: 600px;
+    width: 80%;
+    padding: 10px;
+    display: none; /* Hidden by default */
+    text-align: center;
+}
+
+/* General Styling for Buttons and Inputs */
+button, input[type="button"] {
+    display: inline-block;
+    margin-top: 0px;
+}
+
+
+/* Notification styles */
+.notification-area {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 600px;
+    z-index: 1000;
+    padding: 10px;
+    display: none; /* Hidden by default */
+}
+
+.notification {
+    background-color: #f8d7da; /* Default to error style */
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.notification.success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+.notification.info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border-color: #bee5eb;
+}
+
+.notification .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+}

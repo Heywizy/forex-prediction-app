@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.0.0"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="static\style.css">
+    <title>Forex Dashboard</title>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Forex Tracking Dashboard</h1>
+    </div>
+
+    <div id="notification-area" class="notification-area"></div>
+
+    <div class="container">
+        <div class="controls">
+            <!-- Symbols Input -->
+            <label for="ticker-input">Enter Symbols (comma-separated):</label>
+            <input type="text" id="ticker-input" placeholder="e.g. USD/EUR, GBP/USD">
+            
+            <div class="button-group">
+                <input type="button" value="Submit" id="submit-btn">
+            </div>
+
+            <label for="chart-type">Select chart type</label>
+            <select id="chart-type">
+                <option value="line">Line</option>
+                <option value="bar">Bar</option>
+                <option value="candlestick">Candlestick</option>
+            </select>
+        
+            <!-- Date Range Inputs and Apply Date Range Button -->
+            <label for="start-date">Start Date:</label>
+            <input type="date" id="start-date">
+            
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date">
+            
+            <div class="button-group">
+                <input type="button" value="Apply Date Range" id="date-range-btn">
+            </div>
+        
+            <!-- Interval Select and Apply Interval Button -->
+            <label for="interval-select">Select Interval:</label>
+            <select id="interval-select">
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+            </select>
+            
+            <div class="button-group">
+                <input type="button" value="Apply Interval" id="interval-btn">
+            </div>
+        
+            <!-- Reset Filters Button -->
+            <div class="button-group">
+                <input type="button" value="Reset Filters" id="reset-filters-btn">
+            </div>
+        </div>
+        
+                
+
+        <div class="chart-container">
+            <h3>Currency Pair Visualization</h3>
+            <div class="spinner" id="chart-spinner"></div>
+            <div id="graph-area" style="height:400px; width:100%;">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+        <input type="button" value="Export Data" id="export-btn">
+
+        <!-- Prediction Section -->
+        <div class="pred-container">
+            <h3>Prediction & Advice</h3>
+            <div class="spinner" id="predict-spinner"></div>
+            <div id="prediction-result"></div>
+            
+            <!-- Predict Button -->
+            <div class="button-group">
+                <input type="button" value="Predict" id="predict-btn"><input type="button" value="View Prediction History" id="history-btn">
+            </div>
+        </div>
+
+        <!-- Prediction Comparison Section -->
+        <label for="date-input">Select Date for Comparison:</label>
+        <input type="date" id="date-input">
+        <div class="pred-container">
+            <h3>Prediction Comparison</h3>
+            <div class="spinner" id="compare-spinner"></div>
+            <div id="comparison-result"></div>
+            
+            <!-- Compare Date Input and Button -->
+            
+            <div class="button-group">
+                <input type="button" value="Compare" id="compare-btn">
+            </div>
+        </div>
+
+    </div>
+
+    <script src="static\script.js">
+    </script>
+</body>
+</html>

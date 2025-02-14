@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USD/NGN Predictions</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        #chart-container {
+            width: 100%;
+            height: 500px;
+            position: relative;
+        }
+
+        #loading-spinner {
+            display: none;
+            border: 8px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 8px solid #3498db;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>USD/NGN Actual vs Predicted Prices</h2>
+
+        <div id="chart-container">
+            <canvas id="predictionChart"></canvas>
+        </div>
+        <div class="button-container">
+            <button class="btn" id="update-btn">Update Chart</button>
+            <button class="btn" id="dashboard-btn">Go to Dashboard</button>
+        </div>
+        <div id="loading-spinner"></div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            try {
+            // Check if data is properly passed to the frontend
+            const predictedPrices = JSON.parse('{{ predictions | tojson | safe }}');
+            const actualPrices = JSON.parse('{{ actual_prices | tojson | safe }}');
+            const dates = JSON.parse('{{ dates | tojson | safe }}');
+
+            console.log("Predicted Prices: ", predictedPrices);
+            console.log("Actual Prices: ", actualPrices);
+            console.log("Dates: ", dates);
+
+            if (!predictedPrices || !actualPrices || !dates) {
+                throw new Error("Data not available or improperly passed.");
+            }
+
+            // Initialize chart
+            var ctx = document.getElementById('predictionChart').getContext('2d');
+            var predictionChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [
+                        {
+                            label: 'Actual Closing Prices',
+                            data: actualPrices,
+                            borderColor: 'blue',
+                            borderWidth: 2,
+                            fill: false
+                        },
+                        {
+                            label: 'Predicted Prices',
+                            data: predictedPrices,
+                            borderColor: 'red',
+                            borderWidth: 2,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'day',
+                                tooltipFormat: 'YYYY-MM-DD'
+                            }
+                        },
+                        y: {
+                            beginAtZero: false
+                        }
+                    },
+                    plugins: {
+                        zoom: {
+                            pan: {
+                                enabled: true,
+                                mode: 'xy'
+                            },
+                            zoom: {
+                                wheel: {
+                                    enabled: true
+                                },
+                                pinch: {
+                                    enabled: true
+                                },
+                                mode: 'xy'
+                            }
+                        }
+                    }
+                }
+            });
+
+        } catch (error) {
+            console.error("Error while initializing chart: ", error);
+            alert("Failed to load chart data. Please try again later.");
+        }
+
+            // Update chart button functionality
+            $('#update-btn').click(function () {
+                $('#loading-spinner').show();
+                $.post('/update_data', function (data) {
+                    // Update chart with new data
+                    predictionChart.data.labels.push(data.date);
+                    predictionChart.data.datasets[0].data.push(data.actual_price);
+                    predictionChart.data.datasets[1].data.push(data.prediction);
+                    predictionChart.update();
+                    $('#loading-spinner').hide();
+                }).fail(function () {
+                    alert('Failed to update chart.');
+                    $('#loading-spinner').hide();
+                });
+            });
+
+            // Go to Dashboard
+            $('#dashboard-btn').click(function () {
+                window.location.href = '/dashboard'; // Change URL to dashboard
+            });
+        });
+    </script>
+</body>
+</html>
+
